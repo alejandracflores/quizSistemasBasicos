@@ -390,14 +390,14 @@ cargarSiguientePregunta(numPreguntaActual);
 const btnSiguiente = document.querySelector("#siguiente")
 btnSiguiente.addEventListener("click",()=>{
     numPreguntaActual++;
-    if(numPreguntaActual<=4){
+    if(numPreguntaActual<=10){
         cargarSiguientePregunta(numPreguntaActual);
     }
     else{
         const categoriasJugadasLS = JSON.parse(localStorage.getItem("categorias-jugadas"));
        
         console.log(categoriasJugadasLS.length);
-        if(parseInt(categoriasJugadasLS.length) < 6){
+        if(parseInt(categoriasJugadasLS.length) < 3){
             // alert
             location.href = "menu.html";
         }else{
