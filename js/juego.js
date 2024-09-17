@@ -33,7 +33,7 @@ const preguntas = [
     {
         id:4,
         categoria:"memoria",
-        titulo:"¿Qué tipo de memoria es volátil, es decir, pierde su contenido cuando se apaga el sistema?",
+        titulo:"¿Tipo de memoria qué es volátil, es decir, pierde su contenido cuando se apaga el sistema?",
         opcionA:"ROM",
         opcionB:"EEPROM",
         opcionC:"RAM",
@@ -43,7 +43,7 @@ const preguntas = [
     {
         id:5,
         categoria:"memoria",
-        titulo:"¿Cuál de las siguientes unidades es típicamente usada para medir la memoria de una computadora?",
+        titulo:"¿Cuál de las siguientes unidades es usada para medir la memoria de una computadora?",
         opcionA:"Teraflops",
         opcionB:"Hertz",
         opcionC:"Gigabytes",
@@ -113,7 +113,7 @@ const preguntas = [
     {
         id: 12,
         categoria: "procesamiento",
-        titulo: "¿Qué significa 'ALU' en el contexto de la CPU?",
+        titulo: "¿Cuál es el significado de 'ALU' en el contexto de la CPU?",
         opcionA: "Arithmetic Logic Unit",
         opcionB: "Automated Logic Unit",
         opcionC: "Algorithmic Logic Unit",
