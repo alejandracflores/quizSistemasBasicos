@@ -302,7 +302,8 @@ const preguntas = [
     }
 ]
 
-// Eelementos HTML
+
+// Elementos HTML
 const txtPuntaje = document.querySelector("#puntos");
 const nombre = document.querySelector("#nombre");
 
@@ -311,10 +312,10 @@ let numPreguntaActual = 0;
 
 // Puntaje en el localstorage (en caso de ya estar jugando)
 let puntajeTotal = 0;
-if(!localStorage.getItem("puntaje-total")){
+if (!localStorage.getItem("puntaje-total")) {
     puntajeTotal = 0;
-    txtPuntaje.innerHTML = puntajeTotal
-}else{
+    txtPuntaje.innerHTML = puntajeTotal;
+} else {
     puntajeTotal = parseInt(localStorage.getItem("puntaje-total"));
     txtPuntaje.innerHTML = puntajeTotal;
 }
@@ -323,7 +324,7 @@ if(!localStorage.getItem("puntaje-total")){
 const categoriaActual = localStorage.getItem("categoria-actual");
 const preguntasCategoria = preguntas.filter(pregunta => pregunta.categoria === categoriaActual);
 
-function cargarSiguientePregunta(num){
+function cargarSiguientePregunta(num) {
     // Tomar elementos con los datos de las preguntas
     const numPregunta = document.querySelector("#num-pregunta");
     const txtPregunta = document.querySelector("#txt-pregunta");
@@ -339,72 +340,70 @@ function cargarSiguientePregunta(num){
     opcionC.innerHTML = preguntasCategoria[num].opcionC;
     opcionD.innerHTML = preguntasCategoria[num].opcionD;
 
-    
-
     // Evenlistener al botón de cada respuesta
     const botonesRespuesta = document.querySelectorAll(".opcion");
     // Eliminar eventlisener y clases
-    botonesRespuesta.forEach(opcion=>{
-        opcion.removeEventListener("click", (e)=>{});
+    botonesRespuesta.forEach(opcion => {
+        opcion.removeEventListener("click", (e) => {});
         opcion.classList.remove("correcta");
         opcion.classList.remove("incorrecta");
         opcion.classList.remove("no-events");
-    })
+    });
 
-    botonesRespuesta.forEach(opcion=>{
+    botonesRespuesta.forEach(opcion => {
         opcion.addEventListener("click", agregarEventListenerBoton);
-    })
+    });
 
     txtPuntaje.classList.remove("efecto");
 }
 
-function agregarEventListenerBoton(e){
-    console.log(e.currentTarget.id);
-    console.log(numPreguntaActual);
-    console.log(preguntas[numPreguntaActual].correcta);
-    
+function agregarEventListenerBoton(e) {
     // Respuesta correcta
-    if(e.currentTarget.id === preguntasCategoria[numPreguntaActual].correcta){
+    if (e.currentTarget.id === preguntasCategoria[numPreguntaActual].correcta) {
         e.currentTarget.classList.add("correcta");
         puntajeTotal = puntajeTotal + 100;
         txtPuntaje.innerHTML = puntajeTotal;
         localStorage.setItem("puntaje-total", puntajeTotal);
         txtPuntaje.classList.add("efecto");
-    }else{
+    } else {
         e.currentTarget.classList.add("incorrecta");
-        const correcta = document.querySelector("#"+preguntasCategoria[numPreguntaActual].correcta);
+        const correcta = document.querySelector("#" + preguntasCategoria[numPreguntaActual].correcta);
         correcta.classList.add("correcta");
     }
+
     // Agregar un eventlistener a cada boton de respuesta
     const botonesRespuesta = document.querySelectorAll(".opcion");
     // Quitar los eventListen para que no pueda seguir haciendo clic
-    console.log(botonesRespuesta)
-    botonesRespuesta.forEach(opcion=>{
+    botonesRespuesta.forEach(opcion => {
         opcion.classList.add("no-events");
-    })
+    });
 }
 
 cargarSiguientePregunta(numPreguntaActual);
 
 // Botón de siguiente
-const btnSiguiente = document.querySelector("#siguiente")
-btnSiguiente.addEventListener("click",()=>{
-    numPreguntaActual++;
-    if(numPreguntaActual<=10){
-        cargarSiguientePregunta(numPreguntaActual);
+const btnSiguiente = document.querySelector("#siguiente");
+btnSiguiente.addEventListener("click", () => {
+    const botonesRespuesta = document.querySelectorAll(".opcion");
+    const algunaSeleccionada = Array.from(botonesRespuesta).some(opcion =>
+        opcion.classList.contains("correcta") || opcion.classList.contains("incorrecta")
+    );
+
+    if (!algunaSeleccionada) {
+        alert("Debes seleccionar una respuesta antes de continuar.");
+        return;
     }
-    else{
+
+    // Si ya se seleccionó una respuesta, avanzar a la siguiente pregunta
+    numPreguntaActual++;
+    if (numPreguntaActual < preguntasCategoria.length) {
+        cargarSiguientePregunta(numPreguntaActual);
+    } else {
         const categoriasJugadasLS = JSON.parse(localStorage.getItem("categorias-jugadas"));
-       
-        console.log(categoriasJugadasLS.length);
-        if(parseInt(categoriasJugadasLS.length) < 3){
-            // alert
+        if (parseInt(categoriasJugadasLS.length) < 3) {
             location.href = "menu.html";
-        }else{
-            // Pantalla final al terminar las categorías
+        } else {
             location.href = "final.html";
         }
-        
     }
-    
-})
+});
