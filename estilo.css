@@ -1,53 +1,63 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@100;200;300;400;500;600;700;800&display=swap');
-*{
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Roboto Condensed';
+    font-family: 'Montserrat', sans-serif;
 }
-body{
+
+body {
     height: 100vh;
-    background:linear-gradient(#584bb4,#6a416b,#685082);
+    background: linear-gradient(#003366, #005a94, #007acc, #00aaff);
     display: flex;
     align-items: center;
     justify-content: center;
 }
-.container{
+
+.container {
+    max-width: 90%;
     width: 500px;
-    background: linear-gradient(#6051e0,#ad79b9);
-    height: 80%;
+    background: linear-gradient(#007acc, #00aaff);
+    height: auto;
     padding: 20px;
+    border-radius: 15px;
     position: relative;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
-.container .img{
+
+.container .img {
     width: 140px;
     position: absolute;
     top: -60px;
     right: -90px;
     z-index: -1;
-
 }
-header{
-    background-color: #6b5ae4;
+
+header {
+    background-color: #003366;
     color: #fff;
     text-align: center;
     font-size: 12px;
     padding: 10px;
     border-radius: 50px;
-    box-shadow: 3px 3px 5px #2a2929;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-.inicio{
+
+.inicio {
     text-align: center;
     padding-top: 80px;
     color: #fff;
     font-size: 20px;
 }
-.inicio input{
+
+.inicio input {
     display: block;
-    width: 200px;
+    width: 80%;
+    max-width: 200px;
     margin: 10px auto;
     font-size: 16px;
     padding: 10px;
@@ -56,11 +66,12 @@ header{
     text-align: center;
     margin-top: 30px;
 }
-.btn{
-    background-color: #66499e;
+
+.btn {
+    background-color: #007acc;
     color: #fff;
     border: 0;
-    padding: 10px;
+    padding: 10px 20px;
     font-weight: bold;
     border-radius: 50px;
     margin-top: 30px;
@@ -69,71 +80,83 @@ header{
     letter-spacing: 2px;
     font-size: 16px;
     transition: .3s;
-}
-.btn:hover{
-    background-color: #2a2929;
+    display: block;
+    width: 80%;
+    max-width: 200px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.puntaje, .jugador{
+.btn:hover {
+    background-color: #005a94;
+}
+
+.puntaje, .jugador {
     display: flex;
     align-items: center;
 }
-.puntaje img, .jugador img{
+
+.puntaje img, .jugador img {
     width: 40px;
-    background-color: #3f40ae;
+    background-color: #007acc;
     border-radius: 50%;
     border: 2px solid #ffe43a;
     z-index: 2;
 }
-.puntaje .puntos{
-    background-color: #3f40ae;
+
+.puntaje .puntos {
+    background-color: #007acc;
     width: 90px;
     padding: 5px;
     border-radius: 0 30px 30px 0;
     margin-left: -5px;
     z-index: 0;
     font-size: 16px;
-
 }
 
-.jugador .nombre{
-    background-color: #3f40ae;
+.jugador .nombre {
+    background-color: #007acc;
     width: 90px;
     padding: 5px;
     border-radius: 30px 0px 0px 30px;
     margin-right: -5px;
     font-size: 16px;
 }
+
 /* SECCION MENU DEL JUEGO */
-.menu{
+.menu {
     margin-top: 30px;
     color: #fff;
     text-align: center;
 }
-.categorias{
+
+.categorias {
     margin-top: 50px;
     display: grid;
-    grid-template-columns: 170px 170px;
-    gap:40px;
-    justify-content: space-evenly;
-
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 20px;
+    justify-items: center; /* Centrar los elementos dentro de la cuadrícula */
+    display: flex;
+    flex-direction: column;
+    padding-left: 50px;
+    padding-right: 50px;
 }
-.categoria{
-    background-color: #60439d;
-    width: 170px;
+
+.categoria {
+    background-color: #005a94;
     height: 90px;
     border-radius: 15px;
     color: #fff;
     position: relative;
     display: flex;
-    align-items: end;
+    align-items: center; /* Alinear verticalmente el contenido */
+    justify-content: center; /* Centrar el contenido horizontalmente */
     padding: 20px;
-    justify-content: center;
     cursor: pointer;
-    
-
+    text-align: center; /* Alinear el texto al centro */
 }
-.categoria .foto-categoria{
+
+.categoria .foto-categoria {
     width: 80px;
     position: absolute;
     left: 50%;
@@ -141,97 +164,110 @@ header{
     transform: translateX(-50%);
     transition: .3s;
 }
-.categoria:hover{
+
+.categoria:hover {
     box-shadow: 0px 0px 15px #ffe43a;
 }
-.categoria:hover .foto-categoria{
+
+.categoria:hover .foto-categoria {
     scale: 1.2;
 }
 
 /* PANTALLA DE PREGUNTAS */
-.juego{
+.juego {
     color: #fff;
-    margin-top: 30px;
+    margin: 20px 0;
     text-align: center;
+    max-height: 80vh; /* Limitar la altura máxima de la sección */
+    overflow-y: auto; /* Permitir desplazamiento si es necesario */
 }
-.juego .pregunta{
-    margin: 10px 0 30px 0;
+
+.juego .pregunta {
+    margin: 10px 0;
     font-size: 20px;
 }
-.juego .opcion{
+
+.juego .opcion {
     display: block;
     width: 90%;
-    margin: auto;
+    max-width: 300px; /* Aumentar el tamaño máximo para opciones */
+    margin: 10px auto; /* Espaciado vertical */
     border: 0;
     font-size: 16px;
-    margin-bottom: 20px;
-    padding: 15px;
+    padding: 12px; /* Ajustar el padding */
     border-radius: 20px;
     font-size: 18px;
     cursor: pointer;
 }
-.correcta{
-    background-color: rgba(56, 255, 202,1);
+
+.correcta {
+    background-color: rgba(56, 255, 202, 1);
 }
-.incorrecta{
+
+.incorrecta {
     background-color: rgba(255, 56, 56, 1);
 }
-.no-events{
+
+.no-events {
     pointer-events: none;
 }
 
-.efecto{
+.efecto {
     animation: 1s zoom;
-    
 }
+
 @keyframes zoom {
-    0%{
+    0% {
         transform: scale(1);
         color: #fff;
         font-weight: bold;
     }
-    40%{
+    40% {
         transform: scale(1.3);
         color: #ffe43a;
     }
-    60%{
+    60% {
         transform: scale(1.3);
         color: #ffe43a;
-    }  
-    100%{
+    }
+    100% {
         transform: scale(1);
         color: #fff;
         font-weight: normal;
     }
 }
 
-.desabilitada{
+.desabilitada {
     filter: grayscale(.9) opacity(.7);
 }
 
 /* SECCION FINAL */
-.final{
+.final {
     margin-top: 30px;
     text-align: center;
     color: #fff;
 }
-.final .medalla{
+
+.final .medalla {
     position: relative;
     width: 100px;
     margin: 20px auto;
 }
-.final .medalla .nombre{
+
+.final .medalla .nombre {
     position: absolute;
     top: 35px;
     left: 50%;
     transform: translateX(-50%);
 }
-.final img{
+
+.final img {
     display: block;
     width: 100px;
     margin: auto;
 }
-.final .puntaje-final{
+
+.final .puntaje-final {
     font-size: 50px;
     color: #fff;
     margin: 10px 0;

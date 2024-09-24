@@ -362,6 +362,7 @@ const categoriaActual = localStorage.getItem("categoria-actual") || "memoria";
 const preguntasCategoria = preguntas.filter(pregunta => pregunta.categoria === categoriaActual);
 
 function cargarSiguientePregunta(num) {
+    // Tomar elementos con los datos de las preguntas
     const numPregunta = document.querySelector("#num-pregunta");
     const txtPregunta = document.querySelector("#txt-pregunta");
     const opcionA = document.querySelector("#a");
@@ -380,6 +381,15 @@ function cargarSiguientePregunta(num) {
     botonesRespuesta.forEach(opcion => {
         opcion.removeEventListener("click", agregarEventListenerBoton);
         opcion.classList.remove("correcta", "incorrecta", "no-events");
+      
+    // Evenlistener al botón de cada respuesta
+    const botonesRespuesta = document.querySelectorAll(".opcion");
+    // Eliminar eventlisener y clases
+    botonesRespuesta.forEach(opcion => {
+        opcion.removeEventListener("click", (e) => {});
+        opcion.classList.remove("correcta");
+        opcion.classList.remove("incorrecta");
+        opcion.classList.remove("no-events");
     });
 
     botonesRespuesta.forEach(opcion => {
@@ -401,6 +411,8 @@ function agregarEventListenerBoton(e) {
 
     // Marcar respuesta correcta o incorrecta antes de mostrar el alert
     if (e.currentTarget.id === correcta) {
+    // Respuesta correcta
+    if (e.currentTarget.id === preguntasCategoria[numPreguntaActual].correcta) {
         e.currentTarget.classList.add("correcta");
         puntajeTotal += 100;
         txtPuntaje.innerHTML = puntajeTotal;
@@ -419,17 +431,59 @@ function agregarEventListenerBoton(e) {
             alert(`Incorrecto. ${retroInfo}`);
         }, 300);
     }
+        txtPuntaje.classList.add("efecto");
+    } else {
+        e.currentTarget.classList.add("incorrecta");
+        const correcta = document.querySelector("#" + preguntasCategoria[numPreguntaActual].correcta);
+        correcta.classList.add("correcta");
+    }
+
+    // Agregar un eventlistener a cada boton de respuesta
+    const botonesRespuesta = document.querySelectorAll(".opcion");
+    // Quitar los eventListen para que no pueda seguir haciendo clic
+    botonesRespuesta.forEach(opcion => {
+        opcion.classList.add("no-events");
+    });
 }
 
 cargarSiguientePregunta(numPreguntaActual);
 
 // Evento para botón "Siguiente"
 const btnSiguiente = document.getElementById('siguiente');
+  
 btnSiguiente.addEventListener("click", () => {
+// Botón de siguiente
+const btnSiguiente = document.querySelector("#siguiente");
+btnSiguiente.addEventListener("click", () => {
+    const botonesRespuesta = document.querySelectorAll(".opcion");
+    const algunaSeleccionada = Array.from(botonesRespuesta).some(opcion =>
+        opcion.classList.contains("correcta") || opcion.classList.contains("incorrecta")
+    );
+
+    if (!algunaSeleccionada) {
+        Swal.fire({
+            title: 'Advertencia',
+            text: 'Debes seleccionar una respuesta antes de continuar.',
+            icon: 'warning',
+            confirmButtonText: 'OK',
+            heightAuto: false
+        });
+        return;
+    }    
+
+    // Si ya se seleccionó una respuesta, avanzar a la siguiente pregunta
     numPreguntaActual++;
     if (numPreguntaActual < preguntasCategoria.length) {
         cargarSiguientePregunta(numPreguntaActual);
     } else {
         location.href = "final.html";
+    }
+});
+        const categoriasJugadasLS = JSON.parse(localStorage.getItem("categorias-jugadas"));
+        if (parseInt(categoriasJugadasLS.length) < 3) {
+            location.href = "menu.html";
+        } else {
+            location.href = "final.html";
+        }
     }
 });
