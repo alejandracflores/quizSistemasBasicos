@@ -301,30 +301,67 @@ const preguntas = [
         correcta: "c"
     }
 ]
+const retro = [
+    { id: 1, res: "Un bit es la unidad más pequeña de información en una computadora, representando un 0 o un 1." },
+    { id: 2, res: "'KB' significa Kilobyte, que equivale a 1,024 bytes." },
+    { id: 3, res: "El Terabyte es la unidad más grande entre las opciones, seguido por Gigabyte, Megabyte y Kilobyte." },
+    { id: 4, res: "La memoria RAM es volátil, lo que significa que pierde su contenido cuando se apaga el sistema." },
+    { id: 5, res: "Los Gigabytes se utilizan para medir la memoria de una computadora, mientras que las otras opciones no." },
+    { id: 6, res: "Un megabyte generalmente tiene 1,000,000 bytes (decimal), pero en términos binarios, es 1,048,576 bytes." },
+    { id: 7, res: "La memoria ROM (Read-Only Memory) es no volátil, por lo que retiene los datos incluso sin energía." },
+    { id: 8, res: "La memoria RAM almacena datos temporalmente, permitiendo a la computadora acceder rápidamente a la información en uso." },
+    { id: 9, res: "La memoria caché es volátil y de alta velocidad, diseñada para acelerar el acceso a datos frecuentemente utilizados." },
+    { id: 10, res: "La memoria caché es más rápida que la RAM y otros tipos de memoria en una computadora." },
+    { id: 11, res: "La CPU es responsable de procesar instrucciones y ejecutar las operaciones de la computadora." },
+    { id: 12, res: "La ALU (Arithmetic Logic Unit) es la parte de la CPU que realiza cálculos y operaciones lógicas." },
+    { id: 13, res: "La Unidad de Control gestiona el flujo de datos e instrucciones dentro de la CPU." },
+    { id: 14, res: "La ALU es un componente clave de la CPU, encargada de las operaciones aritméticas y lógicas." },
+    { id: 15, res: "La frecuencia del reloj determina la velocidad de procesamiento de la CPU, medida en GHz." },
+    { id: 16, res: "La memoria caché almacena datos frecuentemente utilizados para acelerar el acceso de la CPU." },
+    { id: 17, res: "Una CPU multi-core tiene varios núcleos de procesamiento, lo que le permite manejar tareas simultáneas." },
+    { id: 18, res: "La GPU (Unidad de Procesamiento Gráfico) es mejor para tareas relacionadas con gráficos que la CPU." },
+    { id: 19, res: "El Hyperthreading permite a la CPU ejecutar múltiples hilos de instrucciones al mismo tiempo." },
+    { id: 20, res: "La Unidad de predicción de ramas intenta predecir las instrucciones futuras para mejorar la eficiencia." },
+    { id: 21, res: "El teclado es un dispositivo de entrada que permite al usuario introducir datos a la computadora." },
+    { id: 22, res: "El monitor es un dispositivo de salida que muestra la información procesada por la computadora." },
+    { id: 23, res: "El disco duro es un dispositivo tanto de entrada como de salida, ya que puede leer y escribir datos." },
+    { id: 24, res: "Un escáner es un dispositivo de entrada que convierte documentos físicos en formatos digitales." },
+    { id: 25, res: "Los altavoces son dispositivos de salida que reproducen sonido desde la computadora." },
+    { id: 26, res: "El ratón convierte el movimiento físico en coordenadas digitales para interactuar con la interfaz de la computadora." },
+    { id: 27, res: "Los discos ópticos, como CD o DVD, permiten tanto la lectura como la escritura de datos." },
+    { id: 28, res: "La impresora es un dispositivo de salida que produce copias físicas de documentos digitales." },
+    { id: 29, res: "El micrófono es un dispositivo de entrada que convierte la voz o el sonido en datos digitales." },
+    { id: 30, res: "La cámara digital es un dispositivo de entrada utilizado para capturar imágenes en formato digital." }
+];
 
-// Eelementos HTML
+
+const res_info=document.getElementById('res-content');
+const title_info=document.getElementById('title-info');
+const text_res=document.getElementById('text-res');
+const btn_continue=document.getElementById('btn_continue');
+
+// Elementos HTML
 const txtPuntaje = document.querySelector("#puntos");
 const nombre = document.querySelector("#nombre");
 
-nombre.innerHTML = localStorage.getItem("nombre");
+nombre.innerHTML = localStorage.getItem("nombre") || "Invitado";
 let numPreguntaActual = 0;
 
-// Puntaje en el localstorage (en caso de ya estar jugando)
+// Puntaje en el localStorage
 let puntajeTotal = 0;
-if(!localStorage.getItem("puntaje-total")){
+if (!localStorage.getItem("puntaje-total")) {
     puntajeTotal = 0;
-    txtPuntaje.innerHTML = puntajeTotal
-}else{
+    txtPuntaje.innerHTML = puntajeTotal;
+} else {
     puntajeTotal = parseInt(localStorage.getItem("puntaje-total"));
     txtPuntaje.innerHTML = puntajeTotal;
 }
 
 // Cargar las preguntas de la categoría elegida
-const categoriaActual = localStorage.getItem("categoria-actual");
+const categoriaActual = localStorage.getItem("categoria-actual") || "memoria";
 const preguntasCategoria = preguntas.filter(pregunta => pregunta.categoria === categoriaActual);
 
-function cargarSiguientePregunta(num){
-    // Tomar elementos con los datos de las preguntas
+function cargarSiguientePregunta(num) {
     const numPregunta = document.querySelector("#num-pregunta");
     const txtPregunta = document.querySelector("#txt-pregunta");
     const opcionA = document.querySelector("#a");
@@ -339,72 +376,60 @@ function cargarSiguientePregunta(num){
     opcionC.innerHTML = preguntasCategoria[num].opcionC;
     opcionD.innerHTML = preguntasCategoria[num].opcionD;
 
-    
-
-    // Evenlistener al botón de cada respuesta
     const botonesRespuesta = document.querySelectorAll(".opcion");
-    // Eliminar eventlisener y clases
-    botonesRespuesta.forEach(opcion=>{
-        opcion.removeEventListener("click", (e)=>{});
-        opcion.classList.remove("correcta");
-        opcion.classList.remove("incorrecta");
-        opcion.classList.remove("no-events");
-    })
+    botonesRespuesta.forEach(opcion => {
+        opcion.removeEventListener("click", agregarEventListenerBoton);
+        opcion.classList.remove("correcta", "incorrecta", "no-events");
+    });
 
-    botonesRespuesta.forEach(opcion=>{
+    botonesRespuesta.forEach(opcion => {
         opcion.addEventListener("click", agregarEventListenerBoton);
-    })
+    });
 
     txtPuntaje.classList.remove("efecto");
 }
 
-function agregarEventListenerBoton(e){
-    console.log(e.currentTarget.id);
-    console.log(numPreguntaActual);
-    console.log(preguntas[numPreguntaActual].correcta);
-    
-    // Respuesta correcta
-    if(e.currentTarget.id === preguntasCategoria[numPreguntaActual].correcta){
+function agregarEventListenerBoton(e) {
+    const correcta = preguntasCategoria[numPreguntaActual].correcta;
+    const retroInfo = retro.find(r => r.id === preguntasCategoria[numPreguntaActual].id).res;
+
+    // Desactivar botones para evitar múltiples selecciones
+    const botonesRespuesta = document.querySelectorAll(".opcion");
+    botonesRespuesta.forEach(opcion => {
+        opcion.classList.add("no-events");
+    });
+
+    // Marcar respuesta correcta o incorrecta antes de mostrar el alert
+    if (e.currentTarget.id === correcta) {
         e.currentTarget.classList.add("correcta");
-        puntajeTotal = puntajeTotal + 100;
+        puntajeTotal += 100;
         txtPuntaje.innerHTML = puntajeTotal;
         localStorage.setItem("puntaje-total", puntajeTotal);
-        txtPuntaje.classList.add("efecto");
-    }else{
+        
+        // Usar setTimeout para dar tiempo al cambio de estilo antes del alert
+        setTimeout(() => {
+            alert(`¡Correcto! ${retroInfo}`);
+        }, 300); // 300 ms de retraso para que se note el cambio de color
+    } else {
         e.currentTarget.classList.add("incorrecta");
-        const correcta = document.querySelector("#"+preguntasCategoria[numPreguntaActual].correcta);
-        correcta.classList.add("correcta");
+        const correctaOpcion = document.querySelector("#" + correcta);
+        correctaOpcion.classList.add("correcta");
+
+        setTimeout(() => {
+            alert(`Incorrecto. ${retroInfo}`);
+        }, 300);
     }
-    // Agregar un eventlistener a cada boton de respuesta
-    const botonesRespuesta = document.querySelectorAll(".opcion");
-    // Quitar los eventListen para que no pueda seguir haciendo clic
-    console.log(botonesRespuesta)
-    botonesRespuesta.forEach(opcion=>{
-        opcion.classList.add("no-events");
-    })
 }
 
 cargarSiguientePregunta(numPreguntaActual);
 
-// Botón de siguiente
-const btnSiguiente = document.querySelector("#siguiente")
-btnSiguiente.addEventListener("click",()=>{
+// Evento para botón "Siguiente"
+const btnSiguiente = document.getElementById('siguiente');
+btnSiguiente.addEventListener("click", () => {
     numPreguntaActual++;
-    if(numPreguntaActual<=10){
+    if (numPreguntaActual < preguntasCategoria.length) {
         cargarSiguientePregunta(numPreguntaActual);
+    } else {
+        location.href = "final.html";
     }
-    else{
-        const categoriasJugadasLS = JSON.parse(localStorage.getItem("categorias-jugadas"));
-       
-        console.log(categoriasJugadasLS.length);
-        if(parseInt(categoriasJugadasLS.length) < 3){
-            // alert
-            location.href = "menu.html";
-        }else{
-            // Pantalla final al terminar las categorías
-            location.href = "final.html";
-        }
-        
-    }
-    
-})
+});
