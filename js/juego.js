@@ -401,7 +401,7 @@ function agregarEventListenerBoton(e) {
         opcion.classList.add("no-events");
     });
 
-    // Marcar respuesta correcta o incorrecta antes de mostrar el alert
+    // Marcar respuesta correcta o incorrecta antes de mostrar la alerta
     if (e.currentTarget.id === correcta) {
         // Respuesta correcta
         e.currentTarget.classList.add("correcta");
@@ -409,23 +409,37 @@ function agregarEventListenerBoton(e) {
         txtPuntaje.innerHTML = puntajeTotal;
         localStorage.setItem("puntaje-total", puntajeTotal);
 
-        // Usar setTimeout para dar tiempo al cambio de estilo antes del alert
+        // Alerta de respuesta correcta con Swal
         setTimeout(() => {
-            alert(`¡Correcto! ${retroInfo}`);
-        }, 300); // 300 ms de retraso para que se note el cambio de color
+            Swal.fire({
+                title: '¡Correcto!',
+                text: `${retroInfo}`,  // Mostrar información de retroalimentación
+                icon: 'success',
+                confirmButtonText: 'OK',
+                heightAuto: false
+            });
+        }, 300);  // 300 ms de retraso para que se note el cambio de color
     } else {
         // Respuesta incorrecta
         e.currentTarget.classList.add("incorrecta");
         const correctaOpcion = document.querySelector("#" + correcta);
         correctaOpcion.classList.add("correcta");
 
+        // Alerta de respuesta incorrecta con Swal
         setTimeout(() => {
-            alert(`Incorrecto. ${retroInfo}`);
-        }, 300);
+            Swal.fire({
+                title: 'Incorrecto',
+                text: `${retroInfo}`,  // Mostrar información de retroalimentación
+                icon: 'error',
+                confirmButtonText: 'OK',
+                heightAuto: false
+            });
+        }, 300);  // 300 ms de retraso para que se note el cambio de color
     }
 
     txtPuntaje.classList.add("efecto");
 }
+
 
 // Cargar la primera pregunta
 cargarSiguientePregunta(numPreguntaActual);
