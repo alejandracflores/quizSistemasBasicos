@@ -136,6 +136,10 @@ header {
     grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
     gap: 20px;
     justify-items: center; /* Centrar los elementos dentro de la cuadrícula */
+    display: flex;
+    flex-direction: column;
+    padding-left: 50px;
+    padding-right: 50px;
 }
 
 .categoria {
