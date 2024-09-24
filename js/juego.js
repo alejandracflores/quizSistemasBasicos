@@ -335,10 +335,10 @@ const retro = [
 ];
 
 
-const res_info=document.getElementById('res-content');
-const title_info=document.getElementById('title-info');
-const text_res=document.getElementById('text-res');
-const btn_continue=document.getElementById('btn_continue');
+const res_info = document.getElementById('res-content');
+const title_info = document.getElementById('title-info');
+const text_res = document.getElementById('text-res');
+const btn_continue = document.getElementById('btn_continue');
 
 // Elementos HTML
 const txtPuntaje = document.querySelector("#puntos");
@@ -381,17 +381,9 @@ function cargarSiguientePregunta(num) {
     botonesRespuesta.forEach(opcion => {
         opcion.removeEventListener("click", agregarEventListenerBoton);
         opcion.classList.remove("correcta", "incorrecta", "no-events");
-      
-    // Evenlistener al botón de cada respuesta
-    const botonesRespuesta = document.querySelectorAll(".opcion");
-    // Eliminar eventlisener y clases
-    botonesRespuesta.forEach(opcion => {
-        opcion.removeEventListener("click", (e) => {});
-        opcion.classList.remove("correcta");
-        opcion.classList.remove("incorrecta");
-        opcion.classList.remove("no-events");
     });
 
+    // Añadir nuevo event listener para cada opción
     botonesRespuesta.forEach(opcion => {
         opcion.addEventListener("click", agregarEventListenerBoton);
     });
@@ -411,18 +403,18 @@ function agregarEventListenerBoton(e) {
 
     // Marcar respuesta correcta o incorrecta antes de mostrar el alert
     if (e.currentTarget.id === correcta) {
-    // Respuesta correcta
-    if (e.currentTarget.id === preguntasCategoria[numPreguntaActual].correcta) {
+        // Respuesta correcta
         e.currentTarget.classList.add("correcta");
         puntajeTotal += 100;
         txtPuntaje.innerHTML = puntajeTotal;
         localStorage.setItem("puntaje-total", puntajeTotal);
-        
+
         // Usar setTimeout para dar tiempo al cambio de estilo antes del alert
         setTimeout(() => {
             alert(`¡Correcto! ${retroInfo}`);
         }, 300); // 300 ms de retraso para que se note el cambio de color
     } else {
+        // Respuesta incorrecta
         e.currentTarget.classList.add("incorrecta");
         const correctaOpcion = document.querySelector("#" + correcta);
         correctaOpcion.classList.add("correcta");
@@ -431,28 +423,14 @@ function agregarEventListenerBoton(e) {
             alert(`Incorrecto. ${retroInfo}`);
         }, 300);
     }
-        txtPuntaje.classList.add("efecto");
-    } else {
-        e.currentTarget.classList.add("incorrecta");
-        const correcta = document.querySelector("#" + preguntasCategoria[numPreguntaActual].correcta);
-        correcta.classList.add("correcta");
-    }
 
-    // Agregar un eventlistener a cada boton de respuesta
-    const botonesRespuesta = document.querySelectorAll(".opcion");
-    // Quitar los eventListen para que no pueda seguir haciendo clic
-    botonesRespuesta.forEach(opcion => {
-        opcion.classList.add("no-events");
-    });
+    txtPuntaje.classList.add("efecto");
 }
 
+// Cargar la primera pregunta
 cargarSiguientePregunta(numPreguntaActual);
 
 // Evento para botón "Siguiente"
-const btnSiguiente = document.getElementById('siguiente');
-  
-btnSiguiente.addEventListener("click", () => {
-// Botón de siguiente
 const btnSiguiente = document.querySelector("#siguiente");
 btnSiguiente.addEventListener("click", () => {
     const botonesRespuesta = document.querySelectorAll(".opcion");
@@ -469,7 +447,7 @@ btnSiguiente.addEventListener("click", () => {
             heightAuto: false
         });
         return;
-    }    
+    }
 
     // Si ya se seleccionó una respuesta, avanzar a la siguiente pregunta
     numPreguntaActual++;
@@ -479,11 +457,4 @@ btnSiguiente.addEventListener("click", () => {
         location.href = "final.html";
     }
 });
-        const categoriasJugadasLS = JSON.parse(localStorage.getItem("categorias-jugadas"));
-        if (parseInt(categoriasJugadasLS.length) < 3) {
-            location.href = "menu.html";
-        } else {
-            location.href = "final.html";
-        }
-    }
-});
+
