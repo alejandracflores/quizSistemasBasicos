@@ -6,7 +6,13 @@ const btnComenzar = document.querySelector("#comenzar");
 btnComenzar.addEventListener("click", () => {
     // Validar que el usuario si ingrese su nombre
     if (nombre.value.trim() === "") {
-        alert("Por favor, ingresa tu nombre");
+        Swal.fire({
+            title: 'Error!',
+            text: 'Por favor, ingresa tu nombre',
+            icon: 'error',
+            confirmButtonText: 'OK',
+            heightAuto: false
+        });
         return;
     }
     // Guardar el nombre y otras variables en localStorage
