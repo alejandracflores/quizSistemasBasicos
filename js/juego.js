@@ -390,9 +390,15 @@ btnSiguiente.addEventListener("click", () => {
     );
 
     if (!algunaSeleccionada) {
-        alert("Debes seleccionar una respuesta antes de continuar.");
+        Swal.fire({
+            title: 'Advertencia',
+            text: 'Debes seleccionar una respuesta antes de continuar.',
+            icon: 'warning',
+            confirmButtonText: 'OK',
+            heightAuto: false
+        });
         return;
-    }
+    }    
 
     // Si ya se seleccionó una respuesta, avanzar a la siguiente pregunta
     numPreguntaActual++;
