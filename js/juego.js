@@ -465,10 +465,39 @@ btnSiguiente.addEventListener("click", () => {
 
     // Si ya se seleccionó una respuesta, avanzar a la siguiente pregunta
     numPreguntaActual++;
-    if (numPreguntaActual < preguntasCategoria.length) {
+    if(numPreguntaActual<=9){
         cargarSiguientePregunta(numPreguntaActual);
-    } else {
-        location.href = "final.html";
+    }
+    else{
+        const categoriasJugadasLS = JSON.parse(localStorage.getItem("categorias-jugadas"));
+    
+        console.log(categoriasJugadasLS.length);
+        if (parseInt(categoriasJugadasLS.length) < 3) {
+            // Si falta alguna categoría
+            Swal.fire({
+                title: 'Categoría Completada',
+                text: 'Has completado esta categoría. Elige otra para continuar.',
+                icon: 'info',
+                confirmButtonText: 'Elegir otra categoría',
+                heightAuto: false
+            }).then(() => {
+                // Redirigir después de que se cierre la alerta
+                location.href = "menu.html";
+            });
+        } else {
+            // Si ya se completaron las 3 categorías, terminar el juego
+            Swal.fire({
+                title: '¡Felicidades!',
+                text: 'Has completado todas las categorías.',
+                icon: 'success',
+                confirmButtonText: 'Ver resultados',
+                heightAuto: false
+            }).then(() => {
+                // Redirigir después de que se cierre la alerta
+                location.href = "final.html";
+            });
+        }        
+        
     }
 });
 
